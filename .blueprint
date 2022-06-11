@@ -1,2 +1,27 @@
+created:
+    - database/factories/PoleFactory.php
+    - database/factories/DivisionFactory.php
+    - database/factories/AffaireFactory.php
+    - database/factories/SoustraitantFactory.php
+    - database/factories/ContratFactory.php
+    - database/factories/EchangeFactory.php
+    - database/migrations/2022_06_07_190909_create_poles_table.php
+    - database/migrations/2022_06_07_190910_create_divisions_table.php
+    - database/migrations/2022_06_07_190911_create_affaires_table.php
+    - database/migrations/2022_06_07_190912_create_soustraitants_table.php
+    - database/migrations/2022_06_07_190913_create_contrats_table.php
+    - database/migrations/2022_06_07_190914_create_echanges_table.php
+    - app/Models/Pole.php
+    - app/Models/Division.php
+    - app/Models/Affaire.php
+    - app/Models/Soustraitant.php
+    - app/Models/Contrat.php
+    - app/Models/Echange.php
 models:
     User: { matricule: 'string nullable', name: 'string nullable', email: 'string nullable', role: 'string nullable', password: 'string nullable', users_id: 'biginteger unsigned nullable', remember_token: 'string:100 nullable' }
+    Pole: { abreviation: string, designation: string, user_id: 'id foreign' }
+    Division: { abreviation: string, designation: string, pole_id: 'id foreign', user_id: 'id foreign' }
+    Affaire: { code: string, objet: string, user_id: 'id foreign', division_id: 'id foreign' }
+    Soustraitant: { identifiant: string, raison_sociale: string, addresse: string, telephone: string, email: string, domaine: string, date_anciennete: date, patente: boolean, commentaire: text }
+    Contrat: { identifiant: string, type: 'enum:Contrat,Avenant', date_signature: date, objet: string, montant: float, duree: integer, date_debut: date, date_fin: date, statut: boolean, soustraitant_id: 'id foreign', affaire_id: 'id foreign', contrat_id: 'id foreign nullable' }
+    Echange: { etape: 'enum:1,2,3,4,5,6', sens: string, expediteur: string, destinataire: string, date_exp: date, date_cloture: date, fichier: string, commentaire: 'text nullable', contrat_id: 'id foreign' }

@@ -18,9 +18,19 @@ return new class extends Migration
             $table->string('matricule')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
-            $table->string('role')->nullable();
+            $table->enum('role', [
+                "Chef de projet",
+                "Chef de division",
+                "Directeur de pole",
+                "Division controle de gestion",
+                "DAF",
+                "DG",
+                "Service marché",
+                "RH",
+                "Cadre administrative",
+                "Admin"])->nullable();
             $table->string('password')->nullable();
-            $table->foreignId('users_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->rememberToken();
             $table->timestamps();
         });
