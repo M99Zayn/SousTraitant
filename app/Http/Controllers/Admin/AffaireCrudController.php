@@ -46,8 +46,9 @@ class AffaireCrudController extends CrudController
             $this->crud->addClause('where', 'division_id', backpack_user()->division);
         }else if(strcmp(backpack_user()->role, "Directeur de pole")==0){
             $this->crud->addClause('whereIn', 'division_id', backpack_user()->DivisionsIds);
+        }else if(strcmp(backpack_user()->role, "Cadre administrative")==0){
+            $this->crud->addClause('whereIn', 'division_id', backpack_user()->DivisionsIds);
         }
-
         CRUD::column('code');
         CRUD::column('objet');
         CRUD::column('user_id');
