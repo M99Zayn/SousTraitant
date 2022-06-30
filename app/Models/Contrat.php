@@ -61,4 +61,8 @@ class Contrat extends Model
     {
         return $this->belongsTo(Contrat::class);
     }
+    public function echanges()
+    {
+        return $this->hasMany(Echange::class);
+    }
 }

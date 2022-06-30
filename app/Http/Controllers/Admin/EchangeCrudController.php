@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EchangeRequest;
+use App\Models\Echange;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Request;
+use Backpack\CRUD\app\Library\Widget;
 
 /**
  * Class EchangeCrudController
@@ -39,6 +42,7 @@ class EchangeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->addClause('where', 'destinataire', backpack_user()->name)->orWhere('expediteur', backpack_user()->name);
         CRUD::column('etape');
         CRUD::column('sens');
         CRUD::column('expediteur');
@@ -92,5 +96,20 @@ class EchangeCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+        $echange = Echange::findOrFail(Request::segment(3));
+        if(backpack_user()->role == "Chef de division"){
+            if ($echange->etape == 1 AND $echange->date_cloture == NULL){
+                Widget::add([
+                    'type'        => 'view',
+                    'view'        => 'Etape2_Valider',
+                    'id'          =>  $echange->id,
+                ]);
+            }
+        }
     }
 }

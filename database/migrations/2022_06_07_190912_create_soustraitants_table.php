@@ -25,7 +25,7 @@ class CreateSoustraitantsTable extends Migration
             $table->string('domaine');
             $table->date('date_anciennete');
             $table->boolean('patente');
-            $table->text('commentaire');
+            $table->text('commentaire')->nullable();
             $table->timestamps();
         });
 

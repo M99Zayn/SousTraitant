@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EchangesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('initier', [EchangesController::class,'initier']); //Initier un échange
+Route::post('e2_valider', [EchangesController::class,'e2_valider']); //Valider étape 2

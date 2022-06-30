@@ -64,7 +64,7 @@ class DivisionCrudController extends CrudController
         CRUD::field('abreviation');
         CRUD::field('designation');
         CRUD::field('pole_id');
-        CRUD::field('user_id')->label("Chef");;
+        CRUD::field('user_id')->label("Chef");
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

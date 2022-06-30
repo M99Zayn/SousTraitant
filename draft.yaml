@@ -15,14 +15,14 @@ models:
     division_id: id foreign
   Soustraitant:
     identifiant: string
-    raison_sociale: string
-    addresse: string
-    telephone: string
-    email: string
-    domaine: string
-    date_anciennete: date
+    raison_sociale: string nullable
+    addresse: string nullable
+    telephone: string nullable
+    email: string nullable
+    domaine: string nullable
+    date_anciennete: date nullable
     patente: boolean
-    commentaire: text
+    commentaire: text nullable
   Contrat:
     identifiant: string
     type: enum:Contrat,Avenant
@@ -42,7 +42,7 @@ models:
       expediteur: string
       destinataire: string
       date_exp: date
-      date_cloture: date
-      fichier: string
+      date_cloture: date nullable
+      fichier: string nullable
       commentaire: text nullable
       contrat_id: id foreign
