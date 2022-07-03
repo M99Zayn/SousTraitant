@@ -10,15 +10,11 @@ use Illuminate\Support\Facades\Storage;
 class EchangesController extends Controller
 {
     public function initier(Request $request){
-        // Contrat
-        $contrat = Contrat::findOrFail($request->contrat_id);
-
         //Nouveau Echange
         $echange = new Echange();
         $echange->etape = 1;
         $echange->sens = "->";
         $echange->expediteur = backpack_user()->name;
-        $echange->destinataire = $contrat->affaire->division->user->name;
         $echange->date_exp = date("Y-m-d");
 
         // if a new file is uploaded, store it on disk and its filename in the database
@@ -39,10 +35,26 @@ class EchangesController extends Controller
         }
 
         $echange->commentaire = $request->commentaire;
-        $echange->contrat_id = $request->contrat_id;
 
+        //Cas 1 : Nouvelle initiation:
+        if($request->contrat_id != NULL){
+            // Contrat
+            $contrat = Contrat::findOrFail($request->contrat_id);
+
+            $echange->destinataire = $contrat->affaire->division->user->name;
+            $echange->contrat_id = $request->contrat_id;
+
+        //Cas 2 : Initiation après rejet:
+        }else if($request->echange_id != NULL){
+            //Mettre à jour ancien Echange
+            $a_echange = Echange::findOrFail($request->echange_id);
+            $a_echange->date_cloture = date("Y-m-d");
+            $a_echange->save();
+
+            $echange->destinataire = $a_echange->contrat->affaire->division->user->name;
+            $echange->contrat_id = $a_echange->contrat_id;
+        }
         $echange->save();
-
         return "OK";
     }
 
@@ -98,6 +110,7 @@ class EchangesController extends Controller
         $echange->expediteur = backpack_user()->name;
         $echange->destinataire = $a_echange->expediteur;
         $echange->date_exp = date("Y-m-d");
+        $echange->fichier = $a_echange->fichier;
         $echange->commentaire = $request->commentaire;
         $echange->contrat_id = $a_echange->contrat_id;
 

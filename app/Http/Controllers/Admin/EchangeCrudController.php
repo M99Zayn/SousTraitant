@@ -101,8 +101,12 @@ class EchangeCrudController extends CrudController
 
     protected function setupShowOperation()
     {
-        $this->setupListOperation();
-        $this->crud->removeColumn('fichier');
+        CRUD::addColumn('etape');
+        CRUD::addColumn('sens');
+        CRUD::addColumn('expediteur');
+        CRUD::addColumn('destinataire');
+        CRUD::addColumn('date_exp');
+        CRUD::addColumn('date_cloture');
         CRUD::addColumn(
             [   // Upload
                 'label'     => 'Fichier',
@@ -118,9 +122,20 @@ class EchangeCrudController extends CrudController
                 ],
             ]
         );
+        CRUD::addColumn('commentaire');
         $echange = Echange::findOrFail(Request::segment(3));
+        if(backpack_user()->role == "Chef de projet"){
+            if ($echange->etape == 1 AND $echange->sens == "<-" AND $echange->date_cloture == NULL){
+                Widget::add([
+                    'type'        => 'view',
+                    'view'        => 'Initier',
+                    'echange_id'  =>  $echange->id,
+                    'contrat_id'  =>  NULL,
+                ]);
+            }
+        }
         if(backpack_user()->role == "Chef de division"){
-            if ($echange->etape == 1 AND $echange->date_cloture == NULL){
+            if ($echange->etape == 1 AND $echange->date_cloture == NULL AND $echange->sens == "->"){
                 Widget::add([
                     'type'        => 'view',
                     'view'        => 'Etape2_Valider',

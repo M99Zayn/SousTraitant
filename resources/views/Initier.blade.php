@@ -18,7 +18,9 @@
                         <label for="exampleFormControlFile1">Fichier</label>
                         <input type="file" class="form-control-file" id="file">
                     </div>
-                    <input type="text" name="contrat_id" value="{{ $widget['id'] }}"  hidden>
+                    <!-- hidden inputs to exchanging data between php & js -->
+                    <input type="text" id="contrat_id" name="contrat_id" value="{{ $widget['contrat_id'] }}"  hidden>
+                    <input type="text" id="echange_id" name="echange_id" value="{{ $widget['echange_id'] }}"  hidden>
                 </form>
             </div>
             <div class="modal-footer">
@@ -32,13 +34,9 @@
 
 <div class="row col-sm mb-2">
     <a class="btn btn-success  text-white" data-toggle="modal" data-target="#formModal">Initier l'échange</a>
-
-    <!-- hidden inputs to exchanging data between php & js -->
-    <input type="text" id="contrat_id" name="contrat_id" value="{{ $widget['id'] }}"  hidden>
 </div>
 
 <script>
-    let id = $("input[name=contrat_id]").val();
     let _token   = $('meta[name="csrf-token"]').attr('content');
     function initier(){
         var fd = new FormData();
@@ -46,6 +44,7 @@
         fd.append('file', files);
         fd.append("commentaire", $("#commentaire").val());
         fd.append("contrat_id", $("#contrat_id").val());
+        fd.append("echange_id", $("#echange_id").val());
 
         $.ajax({
             url: '/initier',

@@ -115,7 +115,8 @@ class ContratCrudController extends CrudController
                     Widget::add([
                         'type'        => 'view',
                         'view'        => 'Initier',
-                        'id'          =>  $contrat->id,
+                        'contrat_id'  =>  $contrat->id,
+                        'echange_id'  =>  NULL,
                     ]);
                 }
             }

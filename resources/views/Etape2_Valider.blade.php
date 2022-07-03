@@ -12,7 +12,7 @@
                 <form>
                     <div class="form-group">
                         <label for="commentaire">Commentaire</label>
-                        <textarea class="form-control" id="commentaire" placeholder="Entrer un commentaire..."></textarea>
+                        <textarea class="form-control" id="commentaire1" placeholder="Entrer un commentaire..."></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlFile1">Fichier</label>
@@ -40,7 +40,7 @@
                 <form>
                     <div class="form-group">
                         <label for="commentaire">Commentaire</label>
-                        <textarea class="form-control" id="commentaire" placeholder="Entrer un commentaire..."></textarea>
+                        <textarea class="form-control" id="commentaire2" placeholder="Entrer un commentaire..."></textarea>
                     </div>
                 </form>
             </div>
@@ -66,7 +66,7 @@
         var fd = new FormData();
         var files = $('#file')[0].files[0];
         fd.append('file', files);
-        fd.append("commentaire", $("#commentaire").val());
+        fd.append("commentaire", $("#commentaire1").val());
         fd.append("echange_id", $("#echange_id").val());
 
         $.ajax({
@@ -87,7 +87,7 @@
     }
     function rejeter(){
         var fd = new FormData();
-        fd.append("commentaire", $("#commentaire").val());
+        fd.append("commentaire", $("#commentaire2").val());
         fd.append("echange_id", $("#echange_id").val());
         $.ajax({
             url: '/e2_rejeter',
