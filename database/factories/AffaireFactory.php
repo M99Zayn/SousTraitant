@@ -25,7 +25,7 @@ class AffaireFactory extends Factory
     public function definition()
     {
         return [
-            'code' => $this->faker->word,
+            'code' => $this->faker->randomDigit(),
             'objet' => $this->faker->word,
             'user_id' => User::factory(),
             'division_id' => Division::factory(),

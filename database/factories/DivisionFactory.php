@@ -24,9 +24,10 @@ class DivisionFactory extends Factory
      */
     public function definition()
     {
+        $abr = $this->faker->word;
         return [
-            'abreviation' => $this->faker->word,
-            'designation' => $this->faker->word,
+            'abreviation' => $abr,
+            'designation' => $abr.$this->faker->lexify('????'),
             'pole_id' => Pole::factory(),
             'user_id' => User::factory(),
         ];

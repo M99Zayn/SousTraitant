@@ -25,18 +25,17 @@ class ContratFactory extends Factory
     public function definition()
     {
         return [
-            'identifiant' => $this->faker->word,
-            'type' => $this->faker->randomElement(["Contrat","Avenant"]),
+            'identifiant' => $this->faker->randomDigit(),
+            'type' => "Contrat",
             'date_signature' => $this->faker->date(),
             'objet' => $this->faker->word,
-            'montant' => $this->faker->randomFloat(0, 0, 9999999999.),
-            'duree' => $this->faker->numberBetween(-10000, 10000),
+            'montant' => $this->faker->randomFloat(0, 0, 9999999.),
+            'duree' => $this->faker->numberBetween(0, 10000),
             'date_debut' => $this->faker->date(),
             'date_fin' => $this->faker->date(),
-            'statut' => $this->faker->boolean,
+            'statut' => false,
             'soustraitant_id' => Soustraitant::factory(),
             'affaire_id' => Affaire::factory(),
-            'contrat_id' => Contrat::factory(),
         ];
     }
 }

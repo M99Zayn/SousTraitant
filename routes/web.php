@@ -20,3 +20,4 @@ Route::get('/', function () {
 
 Route::post('initier', [EchangesController::class,'initier']); //Initier un échange
 Route::post('e2_valider', [EchangesController::class,'e2_valider']); //Valider étape 2
+Route::post('e2_rejeter', [EchangesController::class,'e2_rejeter']); //Rejeter étape 2

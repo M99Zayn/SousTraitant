@@ -22,8 +22,8 @@ class CreateEchangesTable extends Migration
             $table->string('expediteur');
             $table->string('destinataire');
             $table->date('date_exp');
-            $table->date('date_cloture');
-            $table->string('fichier');
+            $table->date('date_cloture')->nullable();;
+            $table->string('fichier')->nullable();
             $table->text('commentaire')->nullable();
             $table->foreignId('contrat_id')->constrained();
             $table->timestamps();

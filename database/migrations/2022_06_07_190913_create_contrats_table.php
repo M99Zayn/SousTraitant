@@ -21,7 +21,7 @@ class CreateContratsTable extends Migration
             $table->enum('type', ["Contrat","Avenant"]);
             $table->date('date_signature');
             $table->string('objet');
-            $table->float('montant');
+            $table->double('montant');
             $table->integer('duree');
             $table->date('date_debut');
             $table->date('date_fin');

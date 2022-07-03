@@ -42,15 +42,16 @@ class EchangeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addClause('where', 'destinataire', backpack_user()->name)->orWhere('expediteur', backpack_user()->name);
+        if(backpack_user()->role!='Admin'){
+            $this->crud->addClause('where', 'destinataire', backpack_user()->name)
+                ->orWhere('expediteur', backpack_user()->name);
+        }
         CRUD::column('etape');
         CRUD::column('sens');
         CRUD::column('expediteur');
         CRUD::column('destinataire');
         CRUD::column('date_exp');
         CRUD::column('date_cloture');
-        CRUD::column('fichier');
-        CRUD::column('commentaire');
         CRUD::column('contrat_id');
 
         /**
@@ -101,6 +102,22 @@ class EchangeCrudController extends CrudController
     protected function setupShowOperation()
     {
         $this->setupListOperation();
+        $this->crud->removeColumn('fichier');
+        CRUD::addColumn(
+            [   // Upload
+                'label'     => 'Fichier',
+                'type'      => 'upload',
+                'name'      => 'fichier', // the db column for the foreign key
+                'wrapper'   => [
+                    'element' => 'a', // the element will default to "a" so you can skip it here
+                    'href' => function ($crud, $column, $entry, $related_key) {
+                        return '/storage/'.Echange::findOrFail($entry->id)->fichier;
+                    },
+                    'target' => '_blank',
+                    // 'class' => 'some-class',
+                ],
+            ]
+        );
         $echange = Echange::findOrFail(Request::segment(3));
         if(backpack_user()->role == "Chef de division"){
             if ($echange->etape == 1 AND $echange->date_cloture == NULL){

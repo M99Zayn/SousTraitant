@@ -28,7 +28,7 @@ models:
     type: enum:Contrat,Avenant
     date_signature: date
     objet: string
-    montant: float
+    montant: double
     duree: integer
     date_debut: date
     date_fin: date
