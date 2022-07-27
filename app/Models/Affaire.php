@@ -42,4 +42,9 @@ class Affaire extends Model
     {
         return $this->belongsTo(Division::class);
     }
+
+    public function contrats()
+    {
+        return $this->hasMany(Contrat::class);
+    }
 }

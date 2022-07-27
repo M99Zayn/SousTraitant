@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contrat;
 use App\Models\Echange;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,7 +59,7 @@ class EchangesController extends Controller
         return "OK";
     }
 
-    public function e2_valider(Request $request){
+    public function valider(Request $request){
         //Mettre à jour ancien Echange
         $a_echange = Echange::findOrFail($request->echange_id);
         $a_echange->date_cloture = date("Y-m-d");
@@ -66,10 +67,8 @@ class EchangesController extends Controller
 
         //Nouveau Echange
         $echange = new Echange();
-        $echange->etape = 3;
         $echange->sens = "->";
         $echange->expediteur = backpack_user()->name;
-        $echange->destinataire = backpack_user()->division->pole->user->name;
         $echange->date_exp = date("Y-m-d");
 
         // if a new file is uploaded, store it on disk and its filename in the database
@@ -92,12 +91,24 @@ class EchangesController extends Controller
         $echange->commentaire = $request->commentaire;
         $echange->contrat_id = $a_echange->contrat_id;
 
+        if($request->etape == 2){
+            $echange->etape = 3;
+            $echange->destinataire = backpack_user()->division->pole->user->name;
+        }else if($request->etape == 3){
+            $echange->etape = 4;
+            $division_id = $a_echange->contrat->affaire->division_id;
+            $dcg = User::where('role', 'Division controle de gestion')->where('division_id', $division_id)->first();
+            if($dcg != NULL){
+                $echange->destinataire = $dcg->name;
+            }else abort(403,'dcg introuvable');
+        }
+
         $echange->save();
 
         return "OK";
     }
 
-    public function e2_rejeter(Request $request){
+    public function rejeter(Request $request){
         //Mettre à jour ancien Echange
         $a_echange = Echange::findOrFail($request->echange_id);
         $a_echange->date_cloture = date("Y-m-d");
@@ -105,7 +116,11 @@ class EchangesController extends Controller
 
         //Nouveau Echange
         $echange = new Echange();
-        $echange->etape = 1;
+        if($request->etape == 2){
+            $echange->etape = 1;
+        }else if($request->etape == 3){
+            $echange->etape = 2;
+        }
         $echange->sens = "<-";
         $echange->expediteur = backpack_user()->name;
         $echange->destinataire = $a_echange->expediteur;
@@ -117,5 +132,10 @@ class EchangesController extends Controller
         $echange->save();
 
         return "OK";
+    }
+
+    public function contrat_echanges(Request $request, Contrat $contrat){
+        $echanges = $contrat->echanges()->orderBy('created_at', 'desc')->get();
+        return view('Contrat_echanges', compact('echanges'));
     }
 }

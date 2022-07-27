@@ -59,6 +59,7 @@
 
     <!-- hidden inputs to exchanging data between php & js -->
     <input type="text" id="echange_id" name="echange_id" value="{{ $widget['id'] }}"  hidden>
+    <input type="text" id="etape" name="etape" value="{{ $widget['etape'] }}"  hidden>
 </div>
 <script>
     let _token   = $('meta[name="csrf-token"]').attr('content');
@@ -68,9 +69,10 @@
         fd.append('file', files);
         fd.append("commentaire", $("#commentaire1").val());
         fd.append("echange_id", $("#echange_id").val());
+        fd.append("etape", $("#etape").val());
 
         $.ajax({
-            url: '/e2_valider',
+            url: '/valider',
             type: "POST",
             data: fd,
             contentType: false,
@@ -89,8 +91,9 @@
         var fd = new FormData();
         fd.append("commentaire", $("#commentaire2").val());
         fd.append("echange_id", $("#echange_id").val());
+        fd.append("etape", $("#etape").val());
         $.ajax({
-            url: '/e2_rejeter',
+            url: '/rejeter',
             type: "POST",
             data: fd,
             contentType: false,

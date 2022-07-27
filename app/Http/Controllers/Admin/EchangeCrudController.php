@@ -52,7 +52,15 @@ class EchangeCrudController extends CrudController
         CRUD::column('destinataire');
         CRUD::column('date_exp');
         CRUD::column('date_cloture');
-        CRUD::column('contrat_id');
+
+        $this->crud->addColumn([
+            'label'     => 'Contrat', // Table column heading
+            'type'      => 'select',
+            'name'      => 'contrat_id', // the column that contains the ID of that connected entity;
+            'entity'    => 'contrat', // the method that defines the relationship in your Model
+            'attribute' => 'objet', // foreign key attribute that is shown to user
+            'model'     => 'App\Models\Contrat', // foreign key model
+         ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -133,13 +141,29 @@ class EchangeCrudController extends CrudController
                     'contrat_id'  =>  NULL,
                 ]);
             }
-        }
-        if(backpack_user()->role == "Chef de division"){
+        }else if(backpack_user()->role == "Chef de division"){
             if ($echange->etape == 1 AND $echange->date_cloture == NULL AND $echange->sens == "->"){
                 Widget::add([
-                    'type'        => 'view',
-                    'view'        => 'Etape2_Valider',
-                    'id'          =>  $echange->id,
+                    'type'  => 'view',
+                    'view'  => 'Valider',
+                    'id'    =>  $echange->id,
+                    'etape' =>  2
+                ]);
+            }else if ($echange->etape == 2 AND $echange->date_cloture == NULL AND $echange->sens == "<-"){
+                Widget::add([
+                    'type'  => 'view',
+                    'view'  => 'Valider',
+                    'id'    =>  $echange->id,
+                    'etape' =>  3
+                ]);
+            }
+        }else if(backpack_user()->role == "Directeur de pole"){
+            if ($echange->etape == 3 AND $echange->date_cloture == NULL AND $echange->sens == "->"){
+                Widget::add([
+                    'type'  => 'view',
+                    'view'  => 'Valider',
+                    'id'    =>  $echange->id,
+                    'etape' =>  3
                 ]);
             }
         }

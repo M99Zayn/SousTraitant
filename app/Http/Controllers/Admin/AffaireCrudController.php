@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AffaireRequest;
+use App\Models\Affaire;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Request;
+use Backpack\CRUD\app\Library\Widget;
 
 /**
  * Class AffaireCrudController
@@ -92,5 +95,22 @@ class AffaireCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+        $affaire = Affaire::findOrFail(Request::segment(3));
+
+        CRUD::addColumn([
+            'name'     => 'my_custom_html',
+            'label'    => 'Contrats',
+            'type'     => 'custom_html',
+            'value'    => '<a href="'.route('listcontrats', $affaire->id).'">Afficher les contrats</a>',
+
+            // OPTIONALS
+            // 'escaped' => true // echo using {{ }} instead of {!! !!}
+        ]);
+
     }
 }

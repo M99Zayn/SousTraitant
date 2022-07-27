@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EchangesController;
+use App\Http\Controllers\ContratsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,9 @@ Route::get('/', function () {
 });
 
 Route::post('initier', [EchangesController::class,'initier']); //Initier un échange
-Route::post('e2_valider', [EchangesController::class,'e2_valider']); //Valider étape 2
-Route::post('e2_rejeter', [EchangesController::class,'e2_rejeter']); //Rejeter étape 2
+Route::post('valider', [EchangesController::class,'valider']); //Valider
+Route::post('rejeter', [EchangesController::class,'rejeter']); //Rejeter
+
+Route::get('contrats/{affaire}', [ContratsController::class,'contrats'])->name('listcontrats'); //Contrats par affaire
+
+Route::get('echanges/{contrat}', [EchangesController::class,'contrat_echanges'])->name('contrat_echanges'); //Echange par contrat
