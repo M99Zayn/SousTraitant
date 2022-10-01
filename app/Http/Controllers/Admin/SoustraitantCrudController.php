@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SoustraitantRequest;
+use App\Models\Soustraitant;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use Illuminate\Support\Facades\Request;
 /**
  * Class SoustraitantCrudController
  * @package App\Http\Controllers\Admin
@@ -21,7 +22,7 @@ class SoustraitantCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +34,7 @@ class SoustraitantCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -52,13 +53,13 @@ class SoustraitantCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -79,18 +80,35 @@ class SoustraitantCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+        $soustrait = Soustraitant::findOrFail(Request::segment(3));
+
+        CRUD::addColumn([
+            'name'     => 'my_custom_html',
+            'label'    => 'Contrats',
+            'type'     => 'custom_html',
+            'value'    => '<a href="'.route('soustraitant_contrats', $soustrait->id).'">Afficher les contrats</a>',
+
+            // OPTIONALS
+            // 'escaped' => true // echo using {{ }} instead of {!! !!}
+        ]);
+
     }
 }

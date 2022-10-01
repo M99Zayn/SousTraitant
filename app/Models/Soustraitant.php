@@ -37,4 +37,9 @@ class Soustraitant extends Model
         'date_anciennete' => 'date',
         'patente' => 'boolean',
     ];
+
+    public function contrats()
+    {
+        return $this->hasMany(Contrat::class);
+    }
 }

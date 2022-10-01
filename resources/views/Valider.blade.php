@@ -14,10 +14,12 @@
                         <label for="commentaire">Commentaire</label>
                         <textarea class="form-control" id="commentaire1" placeholder="Entrer un commentaire..."></textarea>
                     </div>
+                    {{--
                     <div class="form-group">
                         <label for="exampleFormControlFile1">Fichier</label>
                         <input type="file" class="form-control-file" id="file">
                     </div>
+                    --}}
                 </form>
             </div>
             <div class="modal-footer">
@@ -59,17 +61,15 @@
 
     <!-- hidden inputs to exchanging data between php & js -->
     <input type="text" id="echange_id" name="echange_id" value="{{ $widget['id'] }}"  hidden>
-    <input type="text" id="etape" name="etape" value="{{ $widget['etape'] }}"  hidden>
 </div>
 <script>
     let _token   = $('meta[name="csrf-token"]').attr('content');
     function valider(){
         var fd = new FormData();
-        var files = $('#file')[0].files[0];
-        fd.append('file', files);
+        // var files = $('#file')[0].files[0];
+        // fd.append('file', files);
         fd.append("commentaire", $("#commentaire1").val());
         fd.append("echange_id", $("#echange_id").val());
-        fd.append("etape", $("#etape").val());
 
         $.ajax({
             url: '/valider',
@@ -91,7 +91,7 @@
         var fd = new FormData();
         fd.append("commentaire", $("#commentaire2").val());
         fd.append("echange_id", $("#echange_id").val());
-        fd.append("etape", $("#etape").val());
+
         $.ajax({
             url: '/rejeter',
             type: "POST",

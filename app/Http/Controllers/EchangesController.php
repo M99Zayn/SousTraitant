@@ -13,7 +13,7 @@ class EchangesController extends Controller
     public function initier(Request $request){
         //Nouveau Echange
         $echange = new Echange();
-        $echange->etape = 1;
+        $echange->etape = 2;
         $echange->sens = "->";
         $echange->expediteur = backpack_user()->name;
         $echange->date_exp = date("Y-m-d");
@@ -71,6 +71,7 @@ class EchangesController extends Controller
         $echange->expediteur = backpack_user()->name;
         $echange->date_exp = date("Y-m-d");
 
+        /*
         // if a new file is uploaded, store it on disk and its filename in the database
         if (request()->file && request()->file->isValid()) {
             // 1. Generate a new file name
@@ -87,17 +88,18 @@ class EchangesController extends Controller
         }else{
             $echange->fichier = "erreur";
         }
+        */
 
+        $echange->fichier = $a_echange->fichier;
         $echange->commentaire = $request->commentaire;
         $echange->contrat_id = $a_echange->contrat_id;
 
-        if($request->etape == 2){
+        if($a_echange->etape == 2){
             $echange->etape = 3;
             $echange->destinataire = backpack_user()->division->pole->user->name;
-        }else if($request->etape == 3){
+        }else if($a_echange->etape == 3){
             $echange->etape = 4;
-            $division_id = $a_echange->contrat->affaire->division_id;
-            $dcg = User::where('role', 'Division controle de gestion')->where('division_id', $division_id)->first();
+            $dcg = User::where('role', 'Division controle de gestion')->first();
             if($dcg != NULL){
                 $echange->destinataire = $dcg->name;
             }else abort(403,'dcg introuvable');
@@ -116,9 +118,9 @@ class EchangesController extends Controller
 
         //Nouveau Echange
         $echange = new Echange();
-        if($request->etape == 2){
+        if($a_echange->etape == 2){
             $echange->etape = 1;
-        }else if($request->etape == 3){
+        }else if($a_echange->etape == 3){
             $echange->etape = 2;
         }
         $echange->sens = "<-";

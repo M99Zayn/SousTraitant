@@ -132,8 +132,10 @@ class EchangeCrudController extends CrudController
         );
         CRUD::addColumn('commentaire');
         $echange = Echange::findOrFail(Request::segment(3));
+
+        //Initiation après rejet:
         if(backpack_user()->role == "Chef de projet"){
-            if ($echange->etape == 1 AND $echange->sens == "<-" AND $echange->date_cloture == NULL){
+            if ($echange->etape == 1 AND $echange->date_cloture == NULL){
                 Widget::add([
                     'type'        => 'view',
                     'view'        => 'Initier',
@@ -141,29 +143,22 @@ class EchangeCrudController extends CrudController
                     'contrat_id'  =>  NULL,
                 ]);
             }
-        }else if(backpack_user()->role == "Chef de division"){
-            if ($echange->etape == 1 AND $echange->date_cloture == NULL AND $echange->sens == "->"){
+        }
+        //Validation ou REJET du chef de division
+        else if(backpack_user()->role == "Chef de division"){
+            if ($echange->etape == 2 AND $echange->date_cloture == NULL){
                 Widget::add([
                     'type'  => 'view',
                     'view'  => 'Valider',
                     'id'    =>  $echange->id,
-                    'etape' =>  2
-                ]);
-            }else if ($echange->etape == 2 AND $echange->date_cloture == NULL AND $echange->sens == "<-"){
-                Widget::add([
-                    'type'  => 'view',
-                    'view'  => 'Valider',
-                    'id'    =>  $echange->id,
-                    'etape' =>  3
                 ]);
             }
         }else if(backpack_user()->role == "Directeur de pole"){
-            if ($echange->etape == 3 AND $echange->date_cloture == NULL AND $echange->sens == "->"){
+            if ($echange->etape == 3 AND $echange->date_cloture == NULL){
                 Widget::add([
                     'type'  => 'view',
                     'view'  => 'Valider',
                     'id'    =>  $echange->id,
-                    'etape' =>  3
                 ]);
             }
         }
