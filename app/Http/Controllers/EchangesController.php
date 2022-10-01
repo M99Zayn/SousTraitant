@@ -118,14 +118,13 @@ class EchangesController extends Controller
 
         //Nouveau Echange
         $echange = new Echange();
-        if($a_echange->etape == 2){
-            $echange->etape = 1;
-        }else if($a_echange->etape == 3){
-            $echange->etape = 2;
-        }
+        $echange->etape = $a_echange->etape-1;
+
+        //
+        $echange->destinataire = $a_echange->contrat->echanges->where('etape',$a_echange->etape)
+                                ->where('sens','->')->first()->expediteur;
         $echange->sens = "<-";
         $echange->expediteur = backpack_user()->name;
-        $echange->destinataire = $a_echange->expediteur;
         $echange->date_exp = date("Y-m-d");
         $echange->fichier = $a_echange->fichier;
         $echange->commentaire = $request->commentaire;

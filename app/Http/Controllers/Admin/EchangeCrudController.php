@@ -153,8 +153,20 @@ class EchangeCrudController extends CrudController
                     'id'    =>  $echange->id,
                 ]);
             }
-        }else if(backpack_user()->role == "Directeur de pole"){
+        }
+        //Validation ou REJET du Directeur de pole
+        else if(backpack_user()->role == "Directeur de pole"){
             if ($echange->etape == 3 AND $echange->date_cloture == NULL){
+                Widget::add([
+                    'type'  => 'view',
+                    'view'  => 'Valider',
+                    'id'    =>  $echange->id,
+                ]);
+            }
+        }
+        //Validation ou REJET du Division controle de gestion
+        else if(backpack_user()->role == "Division controle de gestion"){
+            if ($echange->etape == 4 AND $echange->date_cloture == NULL){
                 Widget::add([
                     'type'  => 'view',
                     'view'  => 'Valider',
