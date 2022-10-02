@@ -14,7 +14,7 @@ class EchangesController extends Controller
         //Nouveau Echange
         $echange = new Echange();
         $echange->etape = 2;
-        $echange->sens = "->";
+        $echange->sens = "Validé";
         $echange->expediteur = backpack_user()->name;
         $echange->date_exp = date("Y-m-d");
 
@@ -67,7 +67,7 @@ class EchangesController extends Controller
 
         //Nouveau Echange
         $echange = new Echange();
-        $echange->sens = "->";
+        $echange->sens = "Validé";
         $echange->expediteur = backpack_user()->name;
         $echange->date_exp = date("Y-m-d");
 
@@ -132,8 +132,8 @@ class EchangesController extends Controller
         $echange->etape = $a_echange->etape-1;
 
         $echange->destinataire = $a_echange->contrat->echanges->where('etape',$a_echange->etape)
-                                ->where('sens','->')->first()->expediteur;
-        $echange->sens = "<-";
+                                ->where('sens','Validé')->first()->expediteur;
+        $echange->sens = "Rejeté";
         $echange->expediteur = backpack_user()->name;
         $echange->date_exp = date("Y-m-d");
         $echange->fichier = $a_echange->fichier;

@@ -12,6 +12,11 @@
       </tr>
     </thead>
     <tbody>
+        @if (sizeof($echanges) == 0)
+            <tr>
+                <td>Aucun échange</td>
+            </tr>
+        @endif
         @foreach ($echanges as $e)
             <tr>
                 <th>{{ $e->expediteur }}</th>

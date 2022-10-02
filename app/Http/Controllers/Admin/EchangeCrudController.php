@@ -42,6 +42,10 @@ class EchangeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        if(strcmp(backpack_user()->role, "Admin")!=0){
+            $this->crud->denyAccess('update');
+            $this->crud->denyAccess('delete');
+        }
         if(backpack_user()->role!='Admin'){
             $this->crud->addClause('where', 'destinataire', backpack_user()->name)
                 ->orWhere('expediteur', backpack_user()->name);
@@ -109,6 +113,10 @@ class EchangeCrudController extends CrudController
 
     protected function setupShowOperation()
     {
+        if(strcmp(backpack_user()->role, "Admin")!=0){
+            $this->crud->removeButton( 'update' );
+            $this->crud->removeButton( 'delete' );
+        }
         CRUD::addColumn('etape');
         CRUD::addColumn('sens');
         CRUD::addColumn('expediteur');

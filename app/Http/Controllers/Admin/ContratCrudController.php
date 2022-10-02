@@ -42,6 +42,10 @@ class ContratCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        if(strcmp(backpack_user()->role, "Admin")!=0){
+            $this->crud->denyAccess('update');
+            $this->crud->denyAccess('delete');
+        }
         CRUD::column('identifiant');
         CRUD::column('type');
         CRUD::column('contrat_id');
@@ -107,6 +111,10 @@ class ContratCrudController extends CrudController
 
     protected function setupShowOperation()
     {
+        if(strcmp(backpack_user()->role, "Admin")!=0){
+            $this->crud->removeButton( 'update' );
+            $this->crud->removeButton( 'delete' );
+        }
         $this->setupListOperation();
         $contrat = Contrat::findOrFail(Request::segment(3));
         if(backpack_user()->role == "Chef de projet"){
@@ -121,5 +129,14 @@ class ContratCrudController extends CrudController
                 }
             }
         }
+        CRUD::addColumn([
+            'name'     => 'my_custom_html',
+            'label'    => 'Echanges',
+            'type'     => 'custom_html',
+            'value'    => '<a href="'.route('contrat_echanges', $contrat->id).'">Afficher les échanges</a>',
+
+            // OPTIONALS
+            // 'escaped' => true // echo using {{ }} instead of {!! !!}
+        ]);
     }
 }
