@@ -103,8 +103,19 @@ class EchangesController extends Controller
             if($dcg != NULL){
                 $echange->destinataire = $dcg->name;
             }else abort(403,'dcg introuvable');
+        }else if($a_echange->etape == 4){
+            $echange->etape = 5;
+            $daf = User::where('role', 'DAF')->first();
+            if($daf != NULL){
+                $echange->destinataire = $daf->name;
+            }else abort(403,'DAF introuvable');
+        }else if($a_echange->etape == 5){
+            $echange->etape = 6;
+            $dg = User::where('role', 'DG')->first();
+            if($dg != NULL){
+                $echange->destinataire = $dg->name;
+            }else abort(403,'DG introuvable');
         }
-
         $echange->save();
 
         return "OK";
@@ -120,7 +131,6 @@ class EchangesController extends Controller
         $echange = new Echange();
         $echange->etape = $a_echange->etape-1;
 
-        //
         $echange->destinataire = $a_echange->contrat->echanges->where('etape',$a_echange->etape)
                                 ->where('sens','->')->first()->expediteur;
         $echange->sens = "<-";

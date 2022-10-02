@@ -174,5 +174,23 @@ class EchangeCrudController extends CrudController
                 ]);
             }
         }
+        else if(backpack_user()->role == "DAF"){
+            if ($echange->etape == 5 AND $echange->date_cloture == NULL){
+                Widget::add([
+                    'type'  => 'view',
+                    'view'  => 'Valider',
+                    'id'    =>  $echange->id,
+                ]);
+            }
+        }
+        else if(backpack_user()->role == "DG"){
+            if ($echange->etape == 6 AND $echange->date_cloture == NULL){
+                Widget::add([
+                    'type'  => 'view',
+                    'view'  => 'Valider',
+                    'id'    =>  $echange->id,
+                ]);
+            }
+        }
     }
 }
