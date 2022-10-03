@@ -41,7 +41,8 @@ class AffaireCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        if(strcmp(backpack_user()->role, "Admin")!=0){
+        if(strcmp(backpack_user()->role, "Admin")!=0 AND strcmp(backpack_user()->role, "Cadre administrative")!=0){
+            $this->crud->removeButton('create');
             $this->crud->denyAccess('update');
             $this->crud->denyAccess('delete');
         }
@@ -114,7 +115,7 @@ class AffaireCrudController extends CrudController
             // OPTIONALS
             // 'escaped' => true // echo using {{ }} instead of {!! !!}
         ]);
-        if(strcmp(backpack_user()->role, "Admin")!=0){
+        if(strcmp(backpack_user()->role, "Admin")!=0 AND strcmp(backpack_user()->role, "Cadre administrative")!=0){
             $this->crud->removeButton( 'update' );
             $this->crud->removeButton( 'delete' );
         }

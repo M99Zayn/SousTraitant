@@ -42,7 +42,8 @@ class ContratCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        if(strcmp(backpack_user()->role, "Admin")!=0){
+        if(strcmp(backpack_user()->role, "Admin")!=0 AND strcmp(backpack_user()->role, "Chef de projet")!=0){
+            $this->crud->removeButton('create');
             $this->crud->denyAccess('update');
             $this->crud->denyAccess('delete');
         }
@@ -111,7 +112,7 @@ class ContratCrudController extends CrudController
 
     protected function setupShowOperation()
     {
-        if(strcmp(backpack_user()->role, "Admin")!=0){
+        if(strcmp(backpack_user()->role, "Admin")!=0 AND strcmp(backpack_user()->role, "Chef de projet")!=0){
             $this->crud->removeButton( 'update' );
             $this->crud->removeButton( 'delete' );
         }
