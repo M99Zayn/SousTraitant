@@ -58,8 +58,14 @@ class AffaireCrudController extends CrudController
         }
         CRUD::column('code');
         CRUD::column('objet');
-        CRUD::column('user_id');
-        CRUD::column('division_id');
+        CRUD::addColumn(['name' => 'Chef de projet',
+                        'label' => 'Chef de projet',
+                        'type' => 'model_function',
+                        'function_name' => 'getUserName']);
+        CRUD::addColumn(['name' => 'Division',
+                        'label' => 'Division',
+                        'type' => 'model_function',
+                        'function_name' => 'getDivisionName']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

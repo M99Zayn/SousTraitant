@@ -49,16 +49,20 @@ class ContratCrudController extends CrudController
         }
         CRUD::column('identifiant');
         CRUD::column('type');
-        CRUD::column('contrat_id');
+        CRUD::addColumn(['label' => 'Contrat racine', 'type' => 'select',
+        'name' => 'contrat_id', 'entity' => 'contrat', 'attribute' => 'id', 'model' => "App\Models\Contrat"]);
         CRUD::column('date_signature');
         CRUD::column('objet');
         CRUD::column('montant');
-        CRUD::column('duree');
+        CRUD::column('duree')->label('Durée en mois');
         CRUD::column('date_debut');
         CRUD::column('date_fin');
-        CRUD::column('statut');
-        CRUD::column('soustraitant_id');
-        CRUD::column('affaire_id');
+        CRUD::addColumn(['name' => 'statut', 'type' => 'select_from_array',
+        'options' => [0 => 'En cours', 1 => 'Cloturé']]);
+        CRUD::addColumn(['label' => 'Sous traitant', 'type' => 'select',
+        'name' => 'soustraitant_id', 'entity' => 'soustraitant', 'attribute' => 'identifiant', 'model' => "App\Models\Soustraitant"]);
+        CRUD::addColumn(['label' => 'Affaire', 'type' => 'select',
+        'name' => 'affaire_id', 'entity' => 'affaire', 'attribute' => 'code', 'model' => "App\Models\Affaire"]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

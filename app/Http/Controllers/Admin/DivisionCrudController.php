@@ -41,8 +41,10 @@ class DivisionCrudController extends CrudController
     {
         CRUD::column('abreviation');
         CRUD::column('designation');
-        CRUD::column('pole_id');
-        CRUD::column('user_id')->label("Chef");;
+        CRUD::addColumn(['label' => 'Pole', 'type' => 'select',
+        'name' => 'pole_id', 'entity' => 'pole', 'attribute' => 'abreviation', 'model' => "App\Models\Pole"]);
+        CRUD::addColumn(['label' => 'Chef de division', 'type' => 'select',
+        'name' => 'user_id', 'entity' => 'user', 'attribute' => 'name', 'model' => "App\Models\User"]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -82,5 +84,10 @@ class DivisionCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
     }
 }

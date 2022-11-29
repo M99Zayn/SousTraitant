@@ -137,4 +137,8 @@ class UserCrudController extends CrudController
         $this->crud->unsetValidation(); // Validation has already been run
         return $this->traitUpdate();
     }
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+    }
 }

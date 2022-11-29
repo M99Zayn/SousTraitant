@@ -47,4 +47,12 @@ class Affaire extends Model
     {
         return $this->hasMany(Contrat::class);
     }
+
+    public function getUserName(){
+        return $this->user->name;
+    }
+
+    public function getDivisionName(){
+        return $this->division->abreviation;
+    }
 }

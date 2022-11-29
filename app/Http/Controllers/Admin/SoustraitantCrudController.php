@@ -46,7 +46,7 @@ class SoustraitantCrudController extends CrudController
         CRUD::column('telephone');
         CRUD::column('email');
         CRUD::column('domaine');
-        CRUD::column('date_anciennete');
+        CRUD::column('date_anciennete')->label('Date début d’exercice');
         CRUD::column('patente');
         CRUD::column('commentaire');
 
