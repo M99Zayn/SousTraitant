@@ -41,7 +41,7 @@ class PoleCrudController extends CrudController
     {
         CRUD::column('abreviation');
         CRUD::column('designation');
-        CRUD::addColumn(['label' => 'Chef de pole', 'type' => 'select',
+        CRUD::addColumn(['label' => 'Directeur de pole', 'type' => 'select',
         'name' => 'user_id', 'entity' => 'user', 'attribute' => 'name', 'model' => "App\Models\User"]);
 
         /**
@@ -63,7 +63,7 @@ class PoleCrudController extends CrudController
 
         CRUD::field('abreviation');
         CRUD::field('designation');
-        CRUD::field('user_id')->label("Chef");
+        CRUD::field('user_id')->label("Directeur de pole");
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

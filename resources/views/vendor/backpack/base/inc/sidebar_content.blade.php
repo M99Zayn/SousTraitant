@@ -13,7 +13,6 @@
                 "DG",
                 "Service marché",
                 "RH",
-                "Cadre administrative",
                 "Admin");
     if (backpack_user()->user != null){
         $chef_role = backpack_user()->user->role;
@@ -27,10 +26,13 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('echange') }}'>Mes échanges</a></li>
 @elseif (backpack_user()->role == "Service marché")
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soustraitant') }}'>Sous traitants</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('contrat') }}'>Contrats</a></li>
 @elseif (backpack_user()->role == "RH")
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('user') }}'>Utilisateurs</a></li>
 @elseif (backpack_user()->role == "Cadre administrative")
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('affaire') }}'>Affaires</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('contrat') }}'>Contrats</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('echange') }}'>Echanges</a></li>
 @elseif (backpack_user()->role == "Admin")
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}">{{ trans('backpack::base.dashboard') }}</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('affaire') }}'>Affaires</a></li>

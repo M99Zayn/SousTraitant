@@ -42,11 +42,14 @@ class ContratCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        if(strcmp(backpack_user()->role, "Admin")!=0 AND strcmp(backpack_user()->role, "Chef de projet")!=0){
+        if(strcmp(backpack_user()->role, "Admin")!=0 AND strcmp(backpack_user()->role, "Service marché")!=0){
             $this->crud->removeButton('create');
+        }
+        if(strcmp(backpack_user()->role, "Admin")!=0){
             $this->crud->denyAccess('update');
             $this->crud->denyAccess('delete');
         }
+
         CRUD::column('identifiant');
         CRUD::column('type');
         CRUD::addColumn(['label' => 'Contrat racine', 'type' => 'select',
@@ -57,12 +60,25 @@ class ContratCrudController extends CrudController
         CRUD::column('duree')->label('Durée en mois');
         CRUD::column('date_debut');
         CRUD::column('date_fin');
-        CRUD::addColumn(['name' => 'statut', 'type' => 'select_from_array',
-        'options' => [0 => 'En cours', 1 => 'Cloturé']]);
-        CRUD::addColumn(['label' => 'Sous traitant', 'type' => 'select',
-        'name' => 'soustraitant_id', 'entity' => 'soustraitant', 'attribute' => 'identifiant', 'model' => "App\Models\Soustraitant"]);
-        CRUD::addColumn(['label' => 'Affaire', 'type' => 'select',
-        'name' => 'affaire_id', 'entity' => 'affaire', 'attribute' => 'code', 'model' => "App\Models\Affaire"]);
+        CRUD::addColumn(['name' => 'statut', 'type' => 'select_from_array', 'options' => [0 => 'En cours', 1 => 'Cloturé']]);
+        CRUD::addColumn(['label' => 'Sous traitant', 'type' => 'select', 'name' => 'soustraitant_id', 'entity' => 'soustraitant',
+        'attribute' => 'identifiant', 'model' => "App\Models\Soustraitant", 'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('soustraitant/'.$related_key.'/show');
+                },
+                'target' => '_blank',
+            ],
+        ]);
+        CRUD::addColumn(['label' => 'Affaire', 'type' => 'select', 'name' => 'affaire_id', 'entity' => 'affaire',
+        'attribute' => 'code', 'model' => "App\Models\Affaire", 'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('affaire/'.$related_key.'/show');
+                },
+                'target' => '_blank',
+            ],
+        ]);
+
+        // <a href="/app/echange/{{ $e->id }}/show">Afficher</a>
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

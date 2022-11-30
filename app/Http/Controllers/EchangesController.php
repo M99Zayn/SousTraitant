@@ -65,58 +65,64 @@ class EchangesController extends Controller
         $a_echange->date_cloture = date("Y-m-d");
         $a_echange->save();
 
-        //Nouveau Echange
-        $echange = new Echange();
-        $echange->sens = "Validé";
-        $echange->expediteur = backpack_user()->name;
-        $echange->date_exp = date("Y-m-d");
+        if ($a_echange->etape == 6) {
+            $contrat = $a_echange->contrat;
+            $contrat->statut = 1;
+            $contrat->save();
 
-        /*
-        // if a new file is uploaded, store it on disk and its filename in the database
-        if (request()->file && request()->file->isValid()) {
-            // 1. Generate a new file name
-            $file = request()->file;
-            $new_file_name = date("Y-m-d_H_i_s").'_'.$file->getClientOriginalName();
-
-            // 2. Move the new file to the correct path
-            $disk = "public";
-            $destination_path = "/";
-            $file_path = $file->storeAs($destination_path, $new_file_name, $disk);
-
-            // 3. Save the complete path to the database
-            $echange->fichier = $file_path;
         }else{
-            $echange->fichier = "erreur";
-        }
-        */
+            //Nouveau Echange
+            $echange = new Echange();
+            $echange->sens = "Validé";
+            $echange->expediteur = backpack_user()->name;
+            $echange->date_exp = date("Y-m-d");
+            /*
+            // if a new file is uploaded, store it on disk and its filename in the database
+            if (request()->file && request()->file->isValid()) {
+                // 1. Generate a new file name
+                $file = request()->file;
+                $new_file_name = date("Y-m-d_H_i_s").'_'.$file->getClientOriginalName();
 
-        $echange->fichier = $a_echange->fichier;
-        $echange->commentaire = $request->commentaire;
-        $echange->contrat_id = $a_echange->contrat_id;
+                // 2. Move the new file to the correct path
+                $disk = "public";
+                $destination_path = "/";
+                $file_path = $file->storeAs($destination_path, $new_file_name, $disk);
 
-        if($a_echange->etape == 2){
-            $echange->etape = 3;
-            $echange->destinataire = backpack_user()->division->pole->user->name;
-        }else if($a_echange->etape == 3){
-            $echange->etape = 4;
-            $dcg = User::where('role', 'Division controle de gestion')->first();
-            if($dcg != NULL){
-                $echange->destinataire = $dcg->name;
-            }else abort(403,'dcg introuvable');
-        }else if($a_echange->etape == 4){
-            $echange->etape = 5;
-            $daf = User::where('role', 'DAF')->first();
-            if($daf != NULL){
-                $echange->destinataire = $daf->name;
-            }else abort(403,'DAF introuvable');
-        }else if($a_echange->etape == 5){
-            $echange->etape = 6;
-            $dg = User::where('role', 'DG')->first();
-            if($dg != NULL){
-                $echange->destinataire = $dg->name;
-            }else abort(403,'DG introuvable');
+                // 3. Save the complete path to the database
+                $echange->fichier = $file_path;
+            }else{
+                $echange->fichier = "erreur";
+            }
+            */
+
+            $echange->fichier = $a_echange->fichier;
+            $echange->commentaire = $request->commentaire;
+            $echange->contrat_id = $a_echange->contrat_id;
+
+            if($a_echange->etape == 2){
+                $echange->etape = 3;
+                $echange->destinataire = backpack_user()->division->pole->user->name;
+            }else if($a_echange->etape == 3){
+                $echange->etape = 4;
+                $dcg = User::where('role', 'Division controle de gestion')->first();
+                if($dcg != NULL){
+                    $echange->destinataire = $dcg->name;
+                }else abort(403,'dcg introuvable');
+            }else if($a_echange->etape == 4){
+                $echange->etape = 5;
+                $daf = User::where('role', 'DAF')->first();
+                if($daf != NULL){
+                    $echange->destinataire = $daf->name;
+                }else abort(403,'DAF introuvable');
+            }else if($a_echange->etape == 5){
+                $echange->etape = 6;
+                $dg = User::where('role', 'DG')->first();
+                if($dg != NULL){
+                    $echange->destinataire = $dg->name;
+                }else abort(403,'DG introuvable');
+            }
+            $echange->save();
         }
-        $echange->save();
 
         return "OK";
     }

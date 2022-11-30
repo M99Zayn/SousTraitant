@@ -48,9 +48,8 @@ class AffaireCrudController extends CrudController
         }
         if(strcmp(backpack_user()->role, "Chef de projet")==0){
             $this->crud->addClause('where', 'user_id', backpack_user()->id);
-        }
-        else if(strcmp(backpack_user()->role, "Chef de division")==0){
-            $this->crud->addClause('where', 'division_id', backpack_user()->division);
+        }else if(backpack_user()->role == "Chef de division"){
+            $this->crud->addClause('where', 'division_id', backpack_user()->division_id);
         }else if(strcmp(backpack_user()->role, "Directeur de pole")==0){
             $this->crud->addClause('whereIn', 'division_id', backpack_user()->DivisionsIds);
         }else if(strcmp(backpack_user()->role, "Cadre administrative")==0){
