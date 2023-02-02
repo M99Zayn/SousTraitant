@@ -53,6 +53,6 @@ class Affaire extends Model
     }
 
     public function getDivisionName(){
-        return $this->division->abreviation;
+        return $this->division->designation;
     }
 }
