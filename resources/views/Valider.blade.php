@@ -39,10 +39,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="rejetForm">
                     <div class="form-group">
-                        <label for="commentaire">Commentaire</label>
-                        <textarea class="form-control" id="commentaire2" placeholder="Entrer un commentaire..."></textarea>
+                        <label for="commentaire">Commentaire *</label>
+                        <textarea class="form-control" id="commentaire2" placeholder="Entrer un commentaire..." required></textarea>
                     </div>
                 </form>
             </div>
@@ -88,6 +88,12 @@
         });
     }
     function rejeter(){
+        const form = document.getElementById("rejetForm");
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            alert("Commentaire requis");
+            return;
+        }
         var fd = new FormData();
         fd.append("commentaire", $("#commentaire2").val());
         fd.append("echange_id", $("#echange_id").val());
