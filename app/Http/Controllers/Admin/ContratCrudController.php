@@ -53,7 +53,7 @@ class ContratCrudController extends CrudController
         CRUD::column('identifiant');
         CRUD::column('type');
         CRUD::addColumn(['label' => 'Contrat racine', 'type' => 'select',
-        'name' => 'contrat_id', 'entity' => 'contrat', 'attribute' => 'id', 'model' => "App\Models\Contrat"]);
+        'name' => 'contrat_id', 'entity' => 'contrat', 'attribute' => 'identifiant', 'model' => "App\Models\Contrat"]);
         CRUD::column('date_signature');
         CRUD::column('objet');
         CRUD::column('montant');
@@ -105,7 +105,7 @@ class ContratCrudController extends CrudController
         CRUD::field('date_signature');
         CRUD::field('objet');
         CRUD::field('montant');
-        CRUD::field('duree');
+        CRUD::field('duree')->label("Durée en mois");
         CRUD::field('date_debut');
         CRUD::field('date_fin');
         CRUD::field('soustraitant_id')->label("Sous Traitant");

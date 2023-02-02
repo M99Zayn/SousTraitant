@@ -27,7 +27,7 @@
                     <td>{{ $e->date_cloture }}</td>
                     <td>{{ $e->commentaire }}</td>
                     <td>
-                        <a href="/app/echange/{{ $e->id }}/show">Afficher</a>
+                        <a href="/app/echange/{{ $e->id }}/show" target="_blank">Afficher</a>
                     </td>
                 </tr>
             @endforeach

@@ -85,7 +85,7 @@ class AffaireCrudController extends CrudController
 
         CRUD::field('code');
         CRUD::field('objet');
-        CRUD::field('user_id');
+        CRUD::field('user_id')->label('Chef de projet');
         CRUD::field('division_id');
 
         /**
