@@ -32,7 +32,6 @@
 @elseif (backpack_user()->role == "Cadre administrative")
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('affaire') }}'>Affaires</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('contrat') }}'>Contrats</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('echange') }}'>Echanges</a></li>
 @elseif (backpack_user()->role == "Admin")
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}">{{ trans('backpack::base.dashboard') }}</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('affaire') }}'>Affaires</a></li>
